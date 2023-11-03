@@ -119,7 +119,7 @@ const Products = () => {
             <div className="row">
               <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                 <div className="section_heading_center">
-                  <h2>{markers.length} LATocations found</h2>
+                  <h2>{markers.length} Locations found</h2>
                 </div>
               </div>
             </div>

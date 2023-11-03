@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef} from "react";
 import Swal from "sweetalert2";
 import locationIcon from "../components/location-icon-png-4250.png";
-import newIcon from "../components/location-icon-png-4250.png";
+import newIcon from "../components/location-icon-png-42501.png";
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import axios from "../components/axios";
