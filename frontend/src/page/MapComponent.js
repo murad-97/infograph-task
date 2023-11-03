@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef} from "react";
 import Swal from "sweetalert2";
 import locationIcon from "../components/location-icon-png-4250.png";
+import newIcon from "../components/location-icon-png-4250.png";
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import axios from "../components/axios";
@@ -64,6 +65,10 @@ function MapComponent(props) {
     iconUrl: locationIcon,
     iconSize: [38, 38],
   });
+  const userIcon = new Icon({
+    iconUrl: newIcon,
+    iconSize: [38, 38],
+  });
 
   return (
     <>
@@ -84,7 +89,7 @@ function MapComponent(props) {
             </Popup>
           </Marker>
           {userLocation && props.model && (
-            <Marker icon={customIcon} position={userLocation}>
+            <Marker icon={userIcon} position={userLocation}>
               <Popup>User Location</Popup>
             </Marker>
           )}
