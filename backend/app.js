@@ -6,7 +6,7 @@ const cors = require("cors");
 const app = express();
 const port = 3500;
 
-// Create a connection to the SQLite database
+  // Create a connection to the SQLite database
 const db = new sqlite3.Database('locations.db');
 
 db.run(`

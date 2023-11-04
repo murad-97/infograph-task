@@ -78,7 +78,7 @@ export default function search(props) {
                                   <input
                                     required
                                     name="LAT"
-                                    type="text"
+                                    type="number"
                                     onChange={handleInputChange}
                                     value={props.positionToAdd.LAT}
                                   />
@@ -91,7 +91,7 @@ export default function search(props) {
                                   <input
                                     required
                                     name="LNG"
-                                    type="text"
+                                    type="number"
                                     value={props.positionToAdd.LNG}
                                     onChange={handleInputChange}
                                   />
