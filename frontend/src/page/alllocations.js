@@ -40,11 +40,11 @@ const Products = () => {
 
 
   const [model, setModel] = useState(false);
-  const [edit, setEdit] = useState(false);
   const handleAdd = () => {
     setModel(!model);
   };
-
+  
+  const [edit, setEdit] = useState(false);
   const handleEdit = (marker) => {
     
     setPositionToEdit(marker);

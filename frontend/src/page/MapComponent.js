@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Swal from "sweetalert2";
 import locationIcon from "../components/location-icon-png-4250.png";
 import newIcon from "../components/location-icon-png-42501.png";
@@ -9,24 +9,27 @@ import "../App.css";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 
 function MapComponent(props) {
+  // State and ref initialization
   const [userLocation, setUserLocation] = useState(null);
   const mapRef = useRef();
 
   useEffect(() => {
+    // Use the ref to fly to the specified position when it changes
     if (mapRef.current && props.position) {
       mapRef.current.flyTo(props.position, 15);
     }
   }, [props.position]);
 
+  // Function to toggle marker draggable property
   const toggleDraggable = () => {
     props.setDraggable((d) => !d);
   };
-//drag function 
+
+  // Event handlers for marker drag
   const eventHandlers = {
     dragend(event) {
-      const latLng = event.target.getLatLng(); // Use event.target to access the marker
+      const latLng = event.target.getLatLng();
       props.setMovingPosition(latLng);
-
       props.setPositionToEdit((prevState) => ({
         ...prevState,
         LAT: latLng.lat,
@@ -35,9 +38,8 @@ function MapComponent(props) {
     },
   };
 
-  // delete function
+  // Function to handle marker deletion
   const handleDelete = async (id) => {
-    
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -47,12 +49,10 @@ function MapComponent(props) {
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
-      // Add 'async' here
       if (result.isConfirmed) {
         try {
           await axios.delete(`locations/${id}`);
           props.Fetch();
-
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
         } catch {
           Swal.fire("Oops!", "Cannot delete your location.", "warning");
@@ -61,6 +61,7 @@ function MapComponent(props) {
     });
   };
 
+  // Define custom icons
   const customIcon = new Icon({
     iconUrl: locationIcon,
     iconSize: [38, 38],
@@ -78,7 +79,8 @@ function MapComponent(props) {
           zoom={15}
           scrollWheelZoom={true}
           style={{ height: "400px", width: "100%" }}
-          ref={mapRef}>
+          ref={mapRef}
+        >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -95,8 +97,6 @@ function MapComponent(props) {
           )}
 
           {props.markers.map((marker, index) => {
-          
-
             return (
               <Marker
                 key={marker.ID}
@@ -107,26 +107,29 @@ function MapComponent(props) {
                   props.movingposition
                     ? props.movingposition
                     : [marker.LAT, marker.LNG]
-                }>
+                }
+              >
                 <Popup>
                   {props.draggable ? (
-                    <p>drage your location to a new location</p>
+                    <p>Drag your location to a new position</p>
                   ) : (
                     <>
                       <h4>{marker.Name}</h4>
                       <p>{marker.Notes}</p>
                       <button
                         className="btn btn_theme btn_md mx-1 px-2 py-1"
-                        onClick={() => handleDelete(marker.ID)}>
-                        delete
+                        onClick={() => handleDelete(marker.ID)}
+                      >
+                        Delete
                       </button>
                       <button
                         className="btn btn_theme btn_md mx-1 px-2 py-1"
                         onClick={() => {
                           props.handleEdit(marker);
                           toggleDraggable();
-                        }}>
-                        edit
+                        }}
+                      >
+                        Edit
                       </button>
                     </>
                   )}
@@ -149,6 +152,8 @@ function MapComponent(props) {
     </>
   );
 }
+
+// Component for adding new location
 function LocationButton(props) {
   const map = useMap();
 
@@ -160,9 +165,7 @@ function LocationButton(props) {
         LNG: e.latlng.lng,
       });
       const { lat, lng } = e.latlng;
-
       props.setUserLocation([lat, lng]);
-     
     });
   }, [props.positionToAdd]);
 
