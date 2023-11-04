@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import MarkerClusterGroup from 'react-leaflet-cluster'
 import Swal from "sweetalert2";
 import locationIcon from "../components/location-icon-png-4250.png";
 import newIcon from "../components/location-icon-png-42501.png";
@@ -11,6 +12,8 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 function MapComponent(props) {
   // State and ref initialization
   const [userLocation, setUserLocation] = useState(null);
+  const [markerId, setMarkerId] = useState(null);
+
   const mapRef = useRef();
 
   useEffect(() => {
@@ -85,6 +88,9 @@ function MapComponent(props) {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
+<MarkerClusterGroup
+        chunkedLoading
+      >
           <Marker position={[31.9516, 35.93935]} icon={customIcon}>
             <Popup>
               <h4>Roman Theatre</h4> <br /> AMMAN
@@ -104,7 +110,7 @@ function MapComponent(props) {
                 draggable={props.draggable}
                 eventHandlers={eventHandlers}
                 position={
-                  props.movingposition
+                  props.movingposition && markerId === marker.ID
                     ? props.movingposition
                     : [marker.LAT, marker.LNG]
                 }
@@ -127,6 +133,7 @@ function MapComponent(props) {
                         onClick={() => {
                           props.handleEdit(marker);
                           toggleDraggable();
+                          setMarkerId(marker.ID)
                         }}
                       >
                         Edit
@@ -137,7 +144,7 @@ function MapComponent(props) {
               </Marker>
             );
           })}
-
+</MarkerClusterGroup>
           {props.model ? (
             <LocationButton
               setUserLocation={setUserLocation}
